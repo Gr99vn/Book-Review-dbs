@@ -1,0 +1,99 @@
+{% extends "layout.html" %}
+{% block title %}Book Info{% endblock %}
+{% block body %}
+  <h1 class="lg-head">Book Info</h1>
+  <hr>
+  <div class="main-container">
+    <div class="book-info">
+      <h2 class="big-head">
+        {{book.title}}
+      </h2>
+      <p>ISBN: {{book.isbn}}</p>
+      <p>Author: {{book.author}}</p>
+      <p>Public year: {{book.year}}</p>
+    </div>
+    <hr class="dot toggle">
+    <div class="user-review">
+      <h2 class="head">On This Platform</h2>
+      {% for i in range(1,6) %}
+        {% if i <= self_avg_rat %}
+          <!-- <span class="fa fa-star checked"></span> -->
+          <span class="star rated">★</span>
+        {% else %}
+          <span class="star">★</span>
+        {% endif %}
+      {% endfor %}
+      <p>{{self_avg_rat}} average based on {{self_num_of_rate}} reviews.</p> 
+    </div>
+    <hr class="dot toggle">
+    <div class="goodread-review">
+      <h2 class="head">GoodRead Review Info</h2>
+      {% for i in range(1,6) %}
+        {% if i <= avg_rat %}
+          <!-- <span class="fa fa-star checked"></span> -->
+          <span class="star rated">★</span>
+        {% else %}
+          <span class="star">★</span>
+        {% endif %}
+      {% endfor %}
+      <p>{{avg_rat}} average based on {{num_of_rate}} reviews.</p> 
+    </div>  
+  </div>
+
+  <hr class="dot">
+  <h1 class="lg-head">Your Reaction</h1>
+  <hr>
+  <div class="review-container">
+    <form method="post">
+      <div class="review-form">
+        <div class="column1"> 
+          <h2 class="head">Rate For This Book</h2>
+          <div class="rating" data-rating="0">
+            <input type="radio" name="rating" value="1" class="radios" id="st1"><label for="st1"><span class="star ustar">★</span></label>
+            <input type="radio" name="rating" value="2" class="radios" id="st2"><label for="st2"><span class="star ustar">★</span></label>
+            <input type="radio" name="rating" value="3" class="radios" id="st3"><label for="st3"><span class="star ustar">★</span></label>
+            <input type="radio" name="rating" value="4" class="radios" id="st4"><label for="st4"><span class="star ustar">★</span></label>
+            <input type="radio" name="rating" value="5" class="radios" id="st5"><label for="st5"><span class="star ustar">★</span></label>
+          </div>
+        </div>
+        <div class="column2">
+          <h2 class="head">Give Comments For This Book Here</h2>
+          <textarea rows="3" class="form-control" name="content"></textarea>
+          <div>
+            <button type="submit">Submit</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <hr>
+  <div class="comment-container">
+    <h2 class="head">Comments</h2>
+    {% if cmt_available == False %}
+      <p>No comment available.</p>
+    {% else %}
+      <div>
+        {% for comment, username, rating in comments %}
+          <div class="user-comment">
+            <h2 class="username head">
+              <span>🌏</span> 
+              {{username}} 
+              <span class="user-comment-rated">rated</span> 
+              {% for i in range(1,6) %}
+                {% if i <= rating %}
+                  <span class="star rated">★</span>
+                {% else %}
+                  <span class="star">★</span>
+                {% endif %}
+              {% endfor %}
+            </h2>
+            <p class="comment"><span>➷</span> {{comment}}</p>
+          </div>
+        {% endfor %}
+        </div>
+    {% endif%}
+  </div>
+{% endblock %}
+{% block jscript %} 
+  <script src="/static/bookjs.js"></script>
+{% endblock %}

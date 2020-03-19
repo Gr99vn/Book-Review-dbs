@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block body %}
+  <div class="wrapper">
+    {% for index, book in books %}
+      {% if index <= 17 %}
+        <div class="book displayed">
+          <a href="{{url_for('bookact', book_id=book.id)}}"><strong>{{book.title}}</strong></a>
+          <p>Isbn - {{book.isbn}}</p>
+          <p>Author - {{book.author}}</p>
+          <p>Published in {{book.year}}</p>
+        </div>
+      {% else %}
+        <div class="book display-none">
+          <a href="{{url_for('bookact', book_id=book.id)}}"><strong>{{book.title}}</strong></a>
+          <p>Isbn - {{book.isbn}}</p>
+          <p>Author - {{book.author}}</p>
+          <p>Published in {{book.year}}</p>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  {% if page_navigate == True %}
+    <div class="page-navigate" data-total={{total_page}}>
+      <div class="list-page">
+        <button class="pn-btn pn-btn-prev"><span>↫</span></button>
+        {% for i in range(total_page) %}
+          <div class="pn-item">
+            <p class="pn-link" data-btn="{{i}}">{{i}}</p>
+          </div>
+        {% endfor %}
+        <button class="pn-btn pn-btn-forw"><span>↬</span></button>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}
+{% block jscript %}
+  <script src="/static/homejs.js"></script>
+{% endblock %}

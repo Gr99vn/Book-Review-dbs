@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block body %}
+  <div class="user-container">
+    <div class="info">
+      <h2 class="uname">{{session_username}}</h2>
+      <p class="contact">{{user.email}}</p>
+    </div>
+    <div class="content">
+      {% if user_reviews == None %}
+        <h2 class="head">You have no review yet.</h2>
+      {% else %}
+        <h2 class="head">Your reviews:</h2>
+        {% for review in user_reviews %}
+          <div class="user-comment">
+            <h2 class="username head">
+              <span>🌏</span> 
+              {{review["book_title"]}} 
+              <span class="rated-star">
+                <span class="user-comment-rated">rated</span>  
+                <span>
+                  {% for i in range(1,6) %}
+                    {% if i <= review["rating"] %}
+                      <span class="star rated">★</span>
+                    {% else %}
+                      <span class="star">★</span>
+                    {% endif %}
+                  {% endfor %}
+                </span> 
+              </span>
+            </h2>
+            <p class="comment"><span>➷</span> {{review["comment"]}}</p>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

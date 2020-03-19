@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <link href="https://fonts.googleapis.com/css?family=Bellota|Montserrat|Poiret+One&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/dcc0a8247b.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container header">
+    <div class="logo">
+      <h3 class="logo-text">B<span class="logo-star">★</span><span class="logo-star">★</span>k Review</h3>
+    </div>
+    <div class="navbar ">
+      <div class="nav-op">
+        <li class="nav-item">
+          <a class="nav-link mr10" href="{{url_for('home')}}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link mr10" href="https://google.com">Support</a>
+        </li>
+      </div>
+      {% if search == True %}
+        <div class="main-search">
+          <form action="{{url_for('home_search')}}" method="post" class="search-form">
+            <input type="text" name="search" placeholder="Search.." class="search">
+          </form>
+        </div>
+      {% endif %}
+      {% if session_username != "NotLogIn" and session_username != "None" %}      
+        <ul class="nav-op ml10">
+          <li class="nav-item ml-auto">
+            <a class="nav-link user mr10" href="{{url_for('get_user')}}">{{session_username}}</a>
+          </li>
+          <li class="nav-item">
+            <a href="{{url_for('logout')}}" class="nav-link lgout"><span class="out-item">⚔</span></a>
+          </li>
+        </ul>
+      {% else %}
+        {% if loginpage != True %}
+          <ul class="nav-op ml10">
+            <li class="nav-item ml-auto">
+              <a class="nav-link user" href="{{url_for('login')}}">Login</a>
+            </li>
+          </ul>
+        {% endif %}
+      {% endif%}
+    </div>
+  </div>
+  <div class="container">
+    {% with messages = get_flashed_messages(with_categories=True) %}
+      {% if messages %}
+        <div class="flashes">
+          {% for category, message in messages %}
+            <div class="{{category}}"><span>⚡</span> {{message}}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block body %}{% endblock %}
+  </div>
+  {% block jscript %}{% endblock%}
+  <div class="container footer">
+    <h2 class="footer-head">Made with <span>💕</span> by Ghost Ryuki</h2>
+    <p class="footer-head">@2020</p>
+  </div>
+</body>
+</html>
